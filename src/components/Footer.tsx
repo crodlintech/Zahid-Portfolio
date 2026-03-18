@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useInView } from "framer-motion";
 
 const socialLinks = [
   {
@@ -32,64 +33,108 @@ const socialLinks = [
   },
 ];
 
+const footerLinks = [
+  { label: "About", href: "#about" },
+  { label: "Services", href: "#services" },
+  { label: "Blog", href: "#blog" },
+  { label: "Contact", href: "#contact" },
+];
+
 export default function Footer() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+
   return (
-    <footer className="relative border-t border-black/10 bg-white py-12 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-8">
+    <footer ref={ref} className="relative border-t border-black/[0.06] bg-white py-16 px-6 md:px-12 overflow-hidden">
+      {/* Subtle background accent */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[400px] h-[200px] rounded-full bg-black/[0.01] blur-[80px] pointer-events-none" />
+
+      <div className="relative max-w-7xl mx-auto">
+        {/* Main footer grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 mb-12">
           {/* Logo & tagline */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.7 }}
-            className="flex flex-col gap-2 text-center md:text-left"
+            className="flex flex-col gap-4"
           >
-            <span className="text-black font-semibold text-lg tracking-wide">
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              className="text-black font-semibold text-xl tracking-wide inline-block self-start"
+            >
               Zahid<span className="text-black/30">.</span>
-            </span>
-            <span className="text-xs text-black/35 font-light tracking-wide">
-              Writing for people. The internet follows.
+            </motion.span>
+            <span className="text-sm text-black/35 font-light leading-relaxed max-w-xs">
+              Writing for people first.
+              <br />The internet just follows.
             </span>
           </motion.div>
 
-          {/* Center — email */}
-          <motion.a
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            href="mailto:connect.zahidworks@gmail.com"
-            className="text-sm text-black/40 hover:text-black transition-colors font-light"
-          >
-            connect.zahidworks@gmail.com
-          </motion.a>
-
-          {/* Socials */}
+          {/* Quick links */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="flex items-center gap-4"
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="flex flex-col gap-4"
           >
-            {socialLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={link.label}
-                className="w-9 h-9 rounded-full border border-black/15 flex items-center justify-center text-black/40 hover:text-black hover:border-black/40 transition-all duration-300"
-              >
-                {link.icon}
-              </a>
-            ))}
+            <span className="text-xs uppercase tracking-[0.3em] text-black/30 font-light">Navigate</span>
+            <div className="flex flex-col gap-2.5">
+              {footerLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm text-black/40 hover:text-black transition-colors duration-300 font-light animated-underline self-start"
+                >
+                  {link.label}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Socials & email */}
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={inView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="flex flex-col gap-4"
+          >
+            <span className="text-xs uppercase tracking-[0.3em] text-black/30 font-light">Connect</span>
+            <a
+              href="mailto:connect.zahidworks@gmail.com"
+              className="text-sm text-black/40 hover:text-black transition-colors font-light animated-underline self-start"
+            >
+              connect.zahidworks@gmail.com
+            </a>
+            <div className="flex items-center gap-3 mt-2">
+              {socialLinks.map((link) => (
+                <motion.a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  whileHover={{ scale: 1.1, y: -2 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="w-10 h-10 rounded-full border border-black/10 flex items-center justify-center text-black/35 hover:text-black hover:border-black/30 hover:bg-black/[0.03] transition-all duration-300"
+                >
+                  {link.icon}
+                </motion.a>
+              ))}
+            </div>
           </motion.div>
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-10 pt-6 border-t border-black/[0.06] flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-black/25 font-light">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="pt-8 border-t border-black/[0.05] flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-black/25 font-light"
+        >
           <span>© {new Date().getFullYear()} Zahid Shaikh. All rights reserved.</span>
           <span className="italic">Built with words. Deployed with intention.</span>
-        </div>
+        </motion.div>
       </div>
     </footer>
   );
