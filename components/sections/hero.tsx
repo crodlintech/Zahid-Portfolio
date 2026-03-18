@@ -98,6 +98,7 @@ export function HeroSection() {
                 src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gemini_Generated_Image_949eaq949eaq949e-Buk48Oei2fSdiAlfE4VkU8bA0ljheY.png"
                 alt="Illustration of a person reading a newspaper"
                 fill
+                sizes="(max-width: 768px) 100vw, 400px"
                 className="object-cover"
                 priority
               />
