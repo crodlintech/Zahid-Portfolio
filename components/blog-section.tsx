@@ -6,49 +6,53 @@ import { ArrowUpRight } from "lucide-react";
 
 export function BlogSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
-  const lines = [
-    "This is where it all started.",
-    "",
-    "A space where I write without rules,",
-    "without structure,",
-    "without thinking about performance.",
-    "",
-    "Just thoughts, stories, and moments",
-    "that needed somewhere to exist.",
-    "",
-    "It is less about content,",
-    "more about expression.",
-    "",
-    "If you want to understand how I think,",
-    "this is the place.",
+  const content = [
+    { text: "This is where it all started.", highlight: false },
+    { text: "", highlight: false },
+    { text: "A space where I write without rules,", highlight: false },
+    { text: "without structure,", highlight: false },
+    { text: "without thinking about performance.", highlight: false },
+    { text: "", highlight: false },
+    { text: "Just thoughts, stories, and moments", highlight: false },
+    { text: "that needed somewhere to exist.", highlight: false },
+    { text: "", highlight: false },
+    { text: "It is less about content,", highlight: false },
+    { text: "more about expression.", highlight: true },
+    { text: "", highlight: false },
+    { text: "If you want to understand how I think,", highlight: false },
+    { text: "this is the place.", highlight: true },
   ];
 
   return (
-    <section id="blog" className="py-24 md:py-32 px-6">
-      <div className="max-w-3xl mx-auto" ref={ref}>
+    <section id="blog" className="py-28 md:py-36 px-6">
+      <div className="max-w-2xl mx-auto" ref={ref}>
         <motion.p
-          className="text-sm uppercase tracking-[0.3em] text-muted-foreground mb-8"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
+          className="text-xs uppercase tracking-[0.25em] text-muted-foreground mb-12 font-medium"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
           A Day With An Artist
         </motion.p>
 
-        <div className="space-y-1 mb-12">
-          {lines.map((line, index) => (
+        <div className="space-y-0.5 mb-12">
+          {content.map((line, index) => (
             <motion.p
               key={index}
               className={`text-lg md:text-xl leading-relaxed ${
-                line === "" ? "h-4" : "text-muted-foreground"
+                line.text === "" ? "h-5" : ""
+              } ${
+                line.highlight
+                  ? "font-medium text-foreground"
+                  : "text-muted-foreground"
               }`}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
+              transition={{ duration: 0.5, delay: index * 0.03 }}
             >
-              {line}
+              {line.text}
             </motion.p>
           ))}
         </div>
@@ -57,17 +61,17 @@ export function BlogSection() {
           href="https://adaywithanartist.blogspot.com/?m=1"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 px-8 py-4 glass rounded-2xl font-medium text-sm text-foreground hover:bg-foreground/5 transition-colors group"
+          className="inline-flex items-center gap-2 px-7 py-3.5 glass-strong rounded-full font-medium text-sm tracking-wide text-foreground hover:bg-foreground/5 transition-all duration-300 group"
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.5, delay: 0.7 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
         >
           Read the Blog
           <ArrowUpRight
             size={16}
-            className="transition-transform group-hover:translate-x-1 group-hover:-translate-y-1"
+            className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
           />
         </motion.a>
       </div>
