@@ -1,0 +1,91 @@
+@import "tailwindcss";
+
+@theme inline {
+  --font-sans: "Poppins", sans-serif;
+  --font-mono: "Poppins", monospace;
+
+  --color-background: #ffffff;
+  --color-foreground: #0a0a0a;
+  --color-muted: #f5f5f5;
+  --color-muted-foreground: #525252;
+  --color-card: rgba(255, 255, 255, 0.7);
+  --color-card-foreground: #0a0a0a;
+  --color-border: rgba(0, 0, 0, 0.1);
+  --color-primary: #0a0a0a;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #f5f5f5;
+  --color-secondary-foreground: #0a0a0a;
+  --color-accent: #e5e5e5;
+  --color-accent-foreground: #0a0a0a;
+
+  --radius: 1rem;
+}
+
+.dark {
+  --color-background: #0a0a0a;
+  --color-foreground: #fafafa;
+  --color-muted: #171717;
+  --color-muted-foreground: #a3a3a3;
+  --color-card: rgba(23, 23, 23, 0.7);
+  --color-card-foreground: #fafafa;
+  --color-border: rgba(255, 255, 255, 0.1);
+  --color-primary: #fafafa;
+  --color-primary-foreground: #0a0a0a;
+  --color-secondary: #262626;
+  --color-secondary-foreground: #fafafa;
+  --color-accent: #262626;
+  --color-accent-foreground: #fafafa;
+}
+
+* {
+  border-color: var(--color-border);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+}
+
+/* Glassmorphism utilities */
+.glass {
+  background: var(--color-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--color-border);
+}
+
+.glass-subtle {
+  background: var(--color-card);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-muted);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-muted-foreground);
+  border-radius: var(--radius);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-foreground);
+}
+
+/* Selection color */
+::selection {
+  background: var(--color-foreground);
+  color: var(--color-background);
+}
