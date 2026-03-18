@@ -6,7 +6,7 @@ import { Send, Loader2, CheckCircle2 } from "lucide-react";
 
 export function ContactSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   const [formData, setFormData] = useState({
     name: "",
@@ -14,7 +14,9 @@ export function ContactSection() {
     organisation: "",
     message: "",
   });
-  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [status, setStatus] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,9 +31,7 @@ export function ContactSection() {
         body: JSON.stringify(formData),
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to send message");
-      }
+      if (!response.ok) throw new Error("Failed to send message");
 
       setStatus("success");
       setFormData({ name: "", email: "", organisation: "", message: "" });
@@ -41,12 +41,25 @@ export function ContactSection() {
     }
   };
 
+  const ctaContent = [
+    { text: "If you have read this far,", highlight: false },
+    { text: "we will probably get along.", highlight: true },
+    { text: "", highlight: false },
+    { text: "If you are building something,", highlight: false },
+    { text: "or just trying to say it better", highlight: false },
+    { text: "", highlight: false },
+    { text: "I would love to be a part of it.", highlight: true },
+    { text: "", highlight: false },
+    { text: "just drop a hi", highlight: false },
+    { text: "good conversations start that way", highlight: false },
+  ];
+
   const inputClasses =
-    "w-full px-6 py-4 glass rounded-2xl bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/20 transition-all";
+    "w-full px-5 py-4 glass-strong rounded-2xl bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-foreground/10 transition-all duration-300";
 
   return (
-    <section id="contact" className="py-24 md:py-32 px-6 bg-muted/30">
-      <div className="max-w-3xl mx-auto" ref={ref}>
+    <section id="contact" className="py-28 md:py-36 px-6 bg-muted/40">
+      <div className="max-w-2xl mx-auto" ref={ref}>
         {/* CTA Text */}
         <motion.div
           className="mb-16"
@@ -55,40 +68,29 @@ export function ContactSection() {
           transition={{ duration: 0.6 }}
         >
           <motion.p
-            className="text-sm uppercase tracking-[0.3em] text-muted-foreground mb-8"
-            initial={{ opacity: 0 }}
-            animate={isInView ? { opacity: 1 } : {}}
+            className="text-xs uppercase tracking-[0.25em] text-muted-foreground mb-12 font-medium"
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
           >
             Get In Touch
           </motion.p>
 
-          <div className="space-y-1">
-            {[
-              "If you have read this far,",
-              "we will probably get along.",
-              "",
-              "If you are building something,",
-              "or just trying to say it better",
-              "",
-              "I would love to be a part of it.",
-              "",
-              "just drop a hi",
-              "good conversations start that way",
-            ].map((line, index) => (
+          <div className="space-y-0.5">
+            {ctaContent.map((line, index) => (
               <motion.p
                 key={index}
                 className={`text-lg md:text-xl leading-relaxed ${
-                  line === "" ? "h-4" : ""
+                  line.text === "" ? "h-5" : ""
                 } ${
-                  line === "just drop a hi" || line === "good conversations start that way"
-                    ? "font-semibold text-foreground"
+                  line.highlight
+                    ? "font-medium text-foreground"
                     : "text-muted-foreground"
                 }`}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
+                transition={{ duration: 0.5, delay: index * 0.03 }}
               >
-                {line}
+                {line.text}
               </motion.p>
             ))}
           </div>
@@ -97,19 +99,21 @@ export function ContactSection() {
         {/* Contact Form */}
         <motion.form
           onSubmit={handleSubmit}
-          className="space-y-6"
-          initial={{ opacity: 0, y: 40 }}
+          className="space-y-4"
+          initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.5 }}
+          transition={{ duration: 0.6, delay: 0.4 }}
         >
-          <div className="grid md:grid-cols-2 gap-6">
+          <div className="grid md:grid-cols-2 gap-4">
             <input
               type="text"
               name="name"
               placeholder="Name *"
               required
               value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, name: e.target.value })
+              }
               className={inputClasses}
             />
             <input
@@ -118,7 +122,9 @@ export function ContactSection() {
               placeholder="Email *"
               required
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               className={inputClasses}
             />
           </div>
@@ -128,7 +134,9 @@ export function ContactSection() {
             name="organisation"
             placeholder="Organisation Name (optional)"
             value={formData.organisation}
-            onChange={(e) => setFormData({ ...formData, organisation: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, organisation: e.target.value })
+            }
             className={inputClasses}
           />
 
@@ -138,7 +146,9 @@ export function ContactSection() {
             rows={5}
             required
             value={formData.message}
-            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            onChange={(e) =>
+              setFormData({ ...formData, message: e.target.value })
+            }
             className={`${inputClasses} resize-none`}
           />
 
@@ -154,18 +164,20 @@ export function ContactSection() {
 
           {status === "success" ? (
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              className="flex items-center gap-3 text-foreground"
+              className="flex items-center gap-3 text-foreground py-4"
             >
               <CheckCircle2 size={20} />
-              <span>Message sent successfully! I&apos;ll get back to you soon.</span>
+              <span className="font-medium">
+                Message sent! I&apos;ll get back to you soon.
+              </span>
             </motion.div>
           ) : (
             <motion.button
               type="submit"
               disabled={status === "loading"}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-foreground text-background rounded-2xl font-medium text-sm hover:opacity-90 transition-opacity disabled:opacity-50"
+              className="inline-flex items-center gap-2 px-7 py-3.5 bg-foreground text-background rounded-full font-medium text-sm tracking-wide hover:opacity-90 transition-all duration-300 disabled:opacity-50"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
             >

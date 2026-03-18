@@ -20,18 +20,17 @@ const tools = [
 
 export function ToolsSection() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
-  // Duplicate tools for seamless infinite scroll
   const duplicatedTools = [...tools, ...tools];
 
   return (
-    <section id="tools" className="py-24 md:py-32 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 mb-12" ref={ref}>
+    <section id="tools" className="py-28 md:py-36 overflow-hidden">
+      <div className="max-w-5xl mx-auto px-6 mb-16" ref={ref}>
         <motion.p
-          className="text-sm uppercase tracking-[0.3em] text-muted-foreground"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
+          className="text-xs uppercase tracking-[0.25em] text-muted-foreground font-medium"
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
           Tools I Work With
@@ -42,26 +41,26 @@ export function ToolsSection() {
         className="relative"
         initial={{ opacity: 0 }}
         animate={isInView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.6, delay: 0.2 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
       >
         {/* Gradient masks */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute left-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
+        <div className="absolute right-0 top-0 bottom-0 w-24 md:w-40 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
 
         {/* Scrolling container */}
-        <div className="flex animate-scroll">
+        <div className="flex animate-scroll-left">
           {duplicatedTools.map((tool, index) => (
             <motion.a
               key={`${tool.name}-${index}`}
               href={tool.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-shrink-0 mx-3"
+              className="flex-shrink-0 mx-2"
               whileHover={{ scale: 1.05, y: -4 }}
-              transition={{ type: "spring", stiffness: 300 }}
+              transition={{ type: "spring", stiffness: 400, damping: 25 }}
             >
-              <div className="glass px-8 py-5 rounded-2xl min-w-[160px] text-center hover:bg-foreground/5 transition-colors">
-                <span className="text-sm font-medium text-foreground whitespace-nowrap">
+              <div className="glass-strong px-6 py-4 rounded-full hover:bg-foreground/5 transition-colors duration-300">
+                <span className="text-sm font-medium text-foreground whitespace-nowrap tracking-wide">
                   {tool.name}
                 </span>
               </div>
